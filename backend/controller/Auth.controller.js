@@ -44,3 +44,41 @@ export const register = async (req, res) => {
     console.log(error.message);
   }
 };
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if all fields are provided
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please fill all fields" });
+    }
+    // Check if user exists
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
+
+    // Check if password is correct
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    // If login is successful
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        contact: user.contact,
+      },
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
