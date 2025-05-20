@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -23,6 +23,22 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    age: {
+      type: Number,
+      required: false,
+    },
+    height: {
+      type: Number, // in cm
+      required: false,
+    },
+    weight: {
+      type: Number, // in kg
+      required: false,
+    },
+    // Reference to HealthCondition documents
+    healthConditions: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "HealthCondition" },
+    ],
   },
   { timestamps: true }
 );
