@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConnect.js";
 import authRouter from "./routes/AuthRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import photoRoutes from "./routes/photoRoutes.js";
+import path from "path";
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(
 );
 
 app.use(cookieParser());
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 //Api Endpoints
 app.get("/", (req, res) => {
@@ -27,6 +30,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/photo", photoRoutes);
 
 app.listen(port, () => {
   console.log(`Server Started on Port ${port}`);
