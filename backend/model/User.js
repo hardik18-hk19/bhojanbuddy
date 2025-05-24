@@ -1,48 +1,16 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    contact: {
-      type: Number,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    confirmPassword: {
-      type: String,
-      required: true,
-    },
-    age: {
-      type: Number,
-      required: false,
-    },
-    height: {
-      type: Number, // in cm
-      required: false,
-    },
-    weight: {
-      type: Number, // in kg
-      required: false,
-    },
-    // Reference to HealthCondition documents
-    healthConditions: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "HealthCondition" },
-    ],
-  },
-  { timestamps: true }
-);
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  verifyOTP: { type: String, default: "" },
+  verifyOTPexpireAt: { type: Number, default: 0 },
+  isAccountVerified: { type: String, default: false },
+  resetOtp: { type: String, default: "" },
+  resetOtpExpireAt: { type: Number, default: 0 },
+});
 
-const User = mongoose.model("User", userSchema);
+const userModel = mongoose.models.user || mongoose.model("user", userSchema);
 
-export default User;
+export default userModel;

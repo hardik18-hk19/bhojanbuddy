@@ -1,21 +1,33 @@
 import express from "express";
-import dotenv from "dotenv";
+import cors from "cors";
+import "dotenv/config";
+import cookieParser from "cookie-parser";
 import connectDB from "./config/dbConnect.js";
-
-import authRoutes from "./routes/AuthRoute.js";
-dotenv.config();
+import authRouter from "./routes/AuthRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 const app = express();
-app.use(express.json());
 
-const PORT = process.env.PORT || 1011;
-app.use("/api", authRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
+const port = process.env.PORT || 4000;
 connectDB();
+
+app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.NEXT_PUBLIC_WEBSITE_URL,
+    credentials: true,
+  })
+);
+
+app.use(cookieParser());
+
+//Api Endpoints
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("Api Working fine");
+});
+app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+
+app.listen(port, () => {
+  console.log(`Server Started on Port ${port}`);
 });
