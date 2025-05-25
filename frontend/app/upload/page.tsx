@@ -101,9 +101,13 @@ export default function UploadPage() {
       }
     );
     const data = await res.json();
+    console.log(data); // Log response
+
     if (data.success) {
+      localStorage.setItem("mealSummary", JSON.stringify(data)); // Store for summary page
       toast({ title: "Photo uploaded!" });
       setFile(null);
+      window.location.href = "/summary"; // Redirect to summary
     } else {
       toast({
         title: "Error",

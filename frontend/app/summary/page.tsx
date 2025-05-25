@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -30,26 +30,18 @@ import { NutritionBreakdown } from "@/components/nutrition/nutrition-breakdown";
 import { MacroChart } from "@/components/nutrition/macro-chart";
 
 export default function SummaryPage() {
-  const [mealData, setMealData] = useState<any>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [summary, setSummary] = useState<any>(null);
 
   useEffect(() => {
-    // Replace with your actual backend endpoint
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/predict/last`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMealData(data);
-        setIsLoaded(true);
-      });
+    const stored = localStorage.getItem("mealSummary");
+    if (stored) setSummary(JSON.parse(stored));
   }, []);
 
-  if (!mealData) return <div>Loading...</div>;
+  if (!summary) return <div>Loading...</div>;
 
-  const imageUrl = mealData.photo?.url || "/placeholder.jpg";
-  const mainLabel = mealData.photo?.label || "Unknown Dish";
-  const mainNutrition = mealData.nutrition || {};
+  const imageUrl = summary.photo?.url || "/placeholder.jpg";
+  const mainLabel = summary.photo?.label || "Unknown Dish";
+  const mainNutrition = summary.nutrition || {};
 
   // You can set daily goals statically or fetch from backend/user profile
   const goals = {
@@ -78,7 +70,7 @@ export default function SummaryPage() {
     <motion.div
       className="container py-8 md:py-12"
       initial="hidden"
-      animate={isLoaded ? "visible" : "hidden"}
+      animate={true ? "visible" : "hidden"}
       variants={fadeIn}
     >
       <motion.div variants={staggerContainer}>

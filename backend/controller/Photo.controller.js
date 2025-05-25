@@ -31,6 +31,19 @@ export const uploadDailyPhoto = async (req, res) => {
     const newPath = path.join(process.cwd(), "uploads", newFilename);
     fs.renameSync(originalPath, newPath);
 
+    // Copy to frontend/uploads as well
+    const frontendUploadsDir = path.join(
+      process.cwd(),
+      "..",
+      "frontend",
+      "uploads"
+    );
+    if (!fs.existsSync(frontendUploadsDir)) {
+      fs.mkdirSync(frontendUploadsDir, { recursive: true });
+    }
+    const frontendPath = path.join(frontendUploadsDir, newFilename);
+    fs.copyFileSync(newPath, frontendPath);
+
     // Step 4: Save photo record with new filename
     const photo = await Photo.create({
       user: req.userId,
