@@ -36,6 +36,7 @@ export const uploadDailyPhoto = async (req, res) => {
       process.cwd(),
       "..",
       "frontend",
+      "public",
       "uploads"
     );
     if (!fs.existsSync(frontendUploadsDir)) {

@@ -39,7 +39,9 @@ export default function SummaryPage() {
 
   if (!summary) return <div>Loading...</div>;
 
-  const imageUrl = summary.photo?.url || "/placeholder.jpg";
+  const imageUrl = summary.photo?.url
+    ? `/uploads/${summary.photo.url.split("/").pop()}`
+    : "/placeholder.jpg";
   const mainLabel = summary.photo?.label || "Unknown Dish";
   const mainNutrition = summary.nutrition || {};
 
