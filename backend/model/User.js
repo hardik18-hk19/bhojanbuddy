@@ -10,30 +10,8 @@ const userSchema = new mongoose.Schema({
   resetOtp: { type: String, default: "" },
   resetOtpExpireAt: { type: Number, default: 0 },
   avatar: { type: String, default: "" },
-  health: {
-    conditions: [String],
-    weight: Number,
-    height: Number,
-    bmi: Number,
-    bloodSugar: Number,
-    bloodPressure: String,
-  },
-  goals: {
-    calories: Number,
-    carbs: Number,
-    protein: Number,
-    fat: Number,
-    sugar: Number,
-    sodium: Number,
-  },
-  devices: [
-    {
-      id: Number,
-      name: String,
-      connected: Boolean,
-      lastSync: String,
-    },
-  ],
+  health: { type: mongoose.Schema.Types.ObjectId, ref: "HealthCondition" },
+  goals: { type: mongoose.Schema.Types.ObjectId, ref: "Goal" },
 });
 
 const userModel = mongoose.models.user || mongoose.model("user", userSchema);

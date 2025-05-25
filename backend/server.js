@@ -6,6 +6,7 @@ import connectDB from "./config/dbConnect.js";
 import authRouter from "./routes/AuthRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
+import PredictRoutes from "./routes/PredictRoutes.js";
 import path from "path";
 
 const app = express();
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/photo", photoRoutes);
+app.use("/api", PredictRoutes);
 
 app.listen(port, () => {
   console.log(`Server Started on Port ${port}`);

@@ -29,4 +29,6 @@ dist-ssr
 
 backend/.env
 
-/backend/uploads
+backend/uploads
+
+/backend/moonlit-caster-460814-p4-52b9030f7175.json
